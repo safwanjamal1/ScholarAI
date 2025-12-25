@@ -32,12 +32,12 @@ Tools Used:
 1. Clone this repository to your local machine using:
 
 ```bash
-  git clone https://github.com/codebasics/langchain.git
+  git clone https://github.com/safwanjamal1/ScholarAI.git
 ```
 2. Navigate to the project directory:
 
 ```bash
-  cd research_AI_agent
+  cd ScholarAI
 ```
 3. Install the required dependencies using pip:
 
