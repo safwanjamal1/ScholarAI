@@ -1,30 +1,34 @@
 
 # 🎓 ScholarAI: Academic Research Helper AI Agent Tool 
 
-ScholarAI is an LLM-powered research assistant designed to help users efficiently explore academic and general knowledge topics. Users can input a research query, and the agent autonomously gathers information from wikipedia and web search, synthesizes findings, and returns a structured research summary with sources.
+ScholarAI is an LLM-powered research assistant that helps users explore academic and general knowledge topics through an interactive Streamlit web interface. Users enter a research query, and the agent autonomously gathers information from Wikipedia and web search tools, synthesizes findings, and returns a structured research summary with sources.
 
-![](ScholarAI.jpg)
+![](ScholarAI_streamlit.jpg)
 
 ## 🚀 Features
 
-- Accepts natural language research queries from users.
-- Uses an LLM-controlled agent to dynamically decide which tools to use.
+- Interactive Streamlit dashboard accepts natural language research queries from users.
+- LLM-controlled agent that dynamically selects tools (Wikipedia, web search).
 - Integrates web search and Wikipedia lookup for information gathering.
-- Produces structured research output using a Pydantic schema.
+- Generates a clear research topic, summary, sources, and tools used.
 - Optionally saves research results to a timestamped text file for later reference.
 
-## 📌 Example Output:
+## 📌 Example Output Saved to Text File:
 ```yaml
 --- Research Output ---
-Timestamp: 2025-12-24 04:08:51
+Timestamp: 2025-12-25 20:48:23
 
-Topic: South Asian Population
-Summary: South Asian population is broadly defined as the population of countries in South Asia, which includes India, Pakistan, Bangladesh, Nepal, Bhutan, Sri Lanka, and the Maldives. As of recent estimates, the total population of South Asia exceeds 1.9 billion people, making it one of the most densely populated regions in the world. The region has a diverse cultural, linguistic, and ethnic makeup, contributing to a rich tapestry of traditions and social practices. Major languages spoken in the region include Hindi, Bengali, Urdu, Tamil, and many others. South Asia faces various demographic challenges such as urbanization, population density, and health care issues. Additionally, migration patterns within and outside the region have influenced population dynamics significantly.
-Sources:
-- https://en.wikipedia.org/wiki/South_Asia
-Tools Used:
-- wikipedia
-- save text to file
+Sharks are a group of elasmobranch fish characterized by a cartilaginous skeleton, a streamlined body, and a strong set of jaws. They are found in oceans worldwide, and their ecological role is crucial, as they occupy the upper tiers of the food chain. There are over 500 species of sharks, ranging from the small dwarf lanternshark to the enormous whale shark. Sharks are known for their acute senses, particularly their ability to detect electric fields in the water and their keen sense of smell. They are often misunderstood and portrayed as dangerous predators, but many species are vital to marine ecosystems and are threatened by human activities such as fishing and habitat destruction.
+
+--- Research Output ---
+Timestamp: 2025-12-25 20:54:58
+
+South Asian Population Statistics:
+
+- The South Asian population in Canada grew to nearly 2.6 million people in 2021, making them the largest racialized group in the country.
+- They represent 7.1% of the total population.
+- This growth is notable as it nearly quadrupled from 669,060 people in 1996, when South Asians made up 2.4% of the population.
+- The statistics are based on the Census of Population long-form questionnaire from Statistics Canada.
 ```
 
 ## 🛠️ Installation
@@ -64,15 +68,14 @@ Tools Used:
 
 ## ▶️ Usage/Examples
 
-1. Run the research agent::
+1. Run the research agent streamlit application:
 ```bash
-python main.py
+streamlit run main.py
+```
+2. Enter a research question in the query field in streamlit:
 
-```
-2. Then enter a research question when prompted:
-```text
-What can I help you research?
-```
+![](query_field.jpg)
+
 The agent will return a structured research response and optionally save results to a file.
 
 ## 📂 Project Structure
@@ -90,6 +93,5 @@ The agent will return a structured research response and optionally save results
 - While LangChain provides a helpful abstraction for building agent-based systems, it frequently introduces breaking changes and deprecations. These versioning inconsistencies can lead to import errors and package conflicts, making it difficult to maintain a stable development environment.
 
 ## 🎯 Future Improvements
-- Add a simple web UI.
 - Support PDF or document uploads.
 - Replace LangChain with Simpler Alternatives: Direct OpenAI API calls (openai Python SDK) or lighter frameworks like Haystack could improve stability and long-term maintainability.

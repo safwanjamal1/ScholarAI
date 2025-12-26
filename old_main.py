@@ -7,7 +7,6 @@ from langchain_core.output_parsers import PydanticOutputParser # to parse LLM ou
 from langchain.agents import create_tool_calling_agent # to create an agent that can call tools
 from langchain.agents import AgentExecutor # to execute the agent with tools
 from tools import search_tool, wiki_tool, save_tool
-import streamlit as st
 
 load_dotenv() # load environment variable file for all required credentials 
 
@@ -42,7 +41,7 @@ prompt = ChatPromptTemplate.from_messages(
         ("human", "{query}"), # from user
         ("placeholder", "{agent_scratchpad}"), # intermediate steps from agent
     ]
-).partial(output_format_instructions=parser.get_format_instructions()) # partially fills in the output format instructions  
+).partial(output_format_instructions=parser.get_format_instructions()) # partially fills in the output format instructions    
 
 tools = [search_tool, wiki_tool, save_tool] # list of tools available to the agent
 agent = create_tool_calling_agent( 
@@ -52,43 +51,15 @@ agent = create_tool_calling_agent(
 )
 
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True) # verbose to see intermediate steps of agent
+query = input("What can I help you research? ")
+raw_response = agent_executor.invoke({"query": query})
+# print(raw_response) # printed for debugging
 
-# Streamlit UI
-st.title("ScholarAI 📚🤖")
-st.write("Ask me a research question and I’ll find the answer using web tools and Wikipedia!\n\n")
 
-user_query = st.text_input("Enter research topic below:", "")
-
-TOOL_NAME_MAP = {
-    "wikipedia": "Wikipedia",
-    "search": "Search",
-    "save_text_to_file": "Save text to output file",
-}
-
-if st.button("Run Research") and user_query.strip() != "":
-    with st.spinner("Thinking..."):
-        try:
-            raw_response = agent_executor.invoke({"query": user_query})
-            structured_response = parser.parse(raw_response["output"])
-
-            # Display results
-            st.subheader("🧠 Topic")
-            st.write(structured_response.topic)
-
-            st.subheader("📄 Summary")
-            st.write(structured_response.summary)
-
-            st.subheader("🔗 Sources")
-            # st.write(structured_response.sources)
-            for i, source in enumerate(structured_response.sources, start=1):
-                st.markdown(f"**{i}.** {source}")
-
-            st.subheader("🛠 Tools Used")
-            # st.write(structured_response.tools_used)
-            for i, tool in enumerate(structured_response.tools_used, start=1):
-                display_name = TOOL_NAME_MAP.get(tool, tool)
-                st.markdown(f"**{i}.** {display_name}")
-
-        except Exception as e:
-            st.error(f"Error: {e}")
-            st.write("Raw Response:", raw_response)
+try:
+    structured_response = parser.parse(raw_response["output"]) # gets structured text from raw response
+    # parser allows us to pick components from the response easily rather than having raw text
+    print(structured_response)
+except Exception as e:
+    print("Error parsing response:", e)
+    print("Raw Response -", raw_response)
